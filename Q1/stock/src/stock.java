@@ -16,6 +16,7 @@ import java.util.Random;
 
 public class stock {
 
+    private static final int TOTAL_STOCK_NUMBER = 1000000;
     private static final int QUANTITY_LOWER_BOUND = 100;
     private static final int QUANTITY_UPPER_BOUND = 10000;
     private static final int PRICE_LOWER_BOUND = 50;
@@ -52,8 +53,10 @@ public class stock {
         int price = random.nextInt(PRICE_UPPER_BOUND - PRICE_LOWER_BOUND + 1);
         price += PRICE_LOWER_BOUND;
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < TOTAL_STOCK_NUMBER; i++) {
             JsonObject stockSymbol = new JsonObject();
+
+            int tempIndex = random.nextInt(size); // select a random index number from 0 to 99999
 
             int quantity = random.nextInt(QUANTITY_UPPER_BOUND - QUANTITY_LOWER_BOUND + 1);
             quantity += QUANTITY_LOWER_BOUND;
@@ -76,7 +79,7 @@ public class stock {
             }
 
 
-            stockSymbol.addProperty("stocksymbol", distributedArray[i]);
+            stockSymbol.addProperty("stocksymbol", distributedArray[tempIndex]);
             stockSymbol.addProperty("stocktime", i + 1);
             stockSymbol.addProperty("quantity", quantity);
             stockSymbol.addProperty("price", price);
