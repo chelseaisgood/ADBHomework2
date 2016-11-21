@@ -7,7 +7,7 @@ create table temp1 as (select row_number() over() as num,* from temp);
 create table temp2 as (select * from temp1);
 
 
-select stocksymbol, avg(sub.price) as running_average_unweighted
+select stocksymbol, (sum(sub.price)/count(sub.price)) as running_average_unweighted
 from
 (
 select temp1.stocksymbol, temp1.num, temp2.price from temp1, temp2 where (temp1.stocksymbol = temp2.stocksymbol) and (temp1.num - 9 = temp2.num)
