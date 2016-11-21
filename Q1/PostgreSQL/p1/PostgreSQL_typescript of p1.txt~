@@ -1,8 +1,0 @@
-postgres=# \timing
-Timing is on.
-postgres=# select stocksymbol, (sum(quantity * price))/sum(quantity) as weighted_average
-postgres-# from stock
-postgres-# group by stocksymbol;
-Time: 2359.028 ms
-postgres=# 
-
