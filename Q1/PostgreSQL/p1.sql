@@ -1,0 +1,4 @@
+select stocksymbol, (sum(quantity * price))/sum(quantity)
+from stock
+group by stocksymbol
+limit 1000000;
