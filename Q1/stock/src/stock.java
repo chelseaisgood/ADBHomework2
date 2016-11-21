@@ -24,6 +24,13 @@ public class stock {
 
     public static void main(String[] args) {
         int[] stockData = gen(0.3, 70002);
+        int[] stockPrice = new int[70002];
+        Random random = new Random();
+
+        for (int i = 0; i < stockPrice.length; i++) {
+            stockPrice[i] = random.nextInt(PRICE_UPPER_BOUND - PRICE_LOWER_BOUND + 1) + QUANTITY_LOWER_BOUND;
+        }
+
         //position 0, 70002, 91002, 97302, 99191, 99759, 99929, 999980, 99995, 99999
         /*
         System.out.println(stockData[99999]);
@@ -38,25 +45,70 @@ public class stock {
         System.out.println(stockData[0]);
         */
         try {
-            createJSON(stockData);
+            createJSON(stockData, stockPrice);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void createJSON(int[] distributedArray) throws IOException {
+    public static void createJSON(int[] distributedArray, int[] stockPrice) throws IOException {
 
-        JsonArray stockSymbolSet = new JsonArray();
+//        JsonArray stockSymbolSet = new JsonArray();
+//        int size = distributedArray.length;
+//        Random random = new Random();
+//
+//        int price = random.nextInt(PRICE_UPPER_BOUND - PRICE_LOWER_BOUND + 1);
+//        price += PRICE_LOWER_BOUND;
+//
+//        for (int i = 0; i < TOTAL_STOCK_NUMBER; i++) {
+//            JsonObject stockSymbol = new JsonObject();
+//
+//            int tempIndex = random.nextInt(size); // select a random index number from 0 to 99999
+//
+//            int quantity = random.nextInt(QUANTITY_UPPER_BOUND - QUANTITY_LOWER_BOUND + 1);
+//            quantity += QUANTITY_LOWER_BOUND;
+//
+//            int priceChange = random.nextInt(5);
+//            priceChange++;
+//            boolean positiveChange = (random.nextInt(2) == 0) ? true : false;
+//            if (positiveChange) {
+//                if (price + priceChange > 500) {
+//                    price -= priceChange;
+//                } else {
+//                    price += priceChange;
+//                }
+//            } else {
+//                if (price - priceChange < 50) {
+//                    price += priceChange;
+//                } else {
+//                    price -= priceChange;
+//                }
+//            }
+//
+//
+//            stockSymbol.addProperty("stocksymbol", distributedArray[tempIndex]);
+//            stockSymbol.addProperty("stocktime", i + 1);
+//            stockSymbol.addProperty("quantity", quantity);
+//            stockSymbol.addProperty("price", price);
+//            stockSymbolSet.add(stockSymbol);
+//        }
+//
+//        String jsonStr = stockSymbolSet.toString();   // turn json object into json string
+//        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("trade.json")));
+//        pw.print(jsonStr);
+//        pw.flush();
+//        pw.close();
+        StringBuffer sb = new StringBuffer();
         int size = distributedArray.length;
         Random random = new Random();
 
-        int price = random.nextInt(PRICE_UPPER_BOUND - PRICE_LOWER_BOUND + 1);
-        price += PRICE_LOWER_BOUND;
 
         for (int i = 0; i < TOTAL_STOCK_NUMBER; i++) {
-            JsonObject stockSymbol = new JsonObject();
+            String tempString = new String();
 
             int tempIndex = random.nextInt(size); // select a random index number from 0 to 99999
+
+            int price = stockPrice[distributedArray[tempIndex] - 1];
 
             int quantity = random.nextInt(QUANTITY_UPPER_BOUND - QUANTITY_LOWER_BOUND + 1);
             quantity += QUANTITY_LOWER_BOUND;
@@ -78,17 +130,15 @@ public class stock {
                 }
             }
 
+            stockPrice[distributedArray[tempIndex] - 1] = price;
 
-            stockSymbol.addProperty("stocksymbol", distributedArray[tempIndex]);
-            stockSymbol.addProperty("stocktime", i + 1);
-            stockSymbol.addProperty("quantity", quantity);
-            stockSymbol.addProperty("price", price);
-            stockSymbolSet.add(stockSymbol);
+            tempString =  tempString + distributedArray[tempIndex] + "," + (i + 1) + "," + quantity + "," + price + "\n";
+            sb.append(tempString);
         }
 
-        String jsonStr = stockSymbolSet.toString();   // turn json object into json string
-        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("trade.json")));
-        pw.print(jsonStr);
+        String finalStr = sb.toString();   // turn json object into json string
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("trade.txt")));
+        pw.print(finalStr);
         pw.flush();
         pw.close();
     }
