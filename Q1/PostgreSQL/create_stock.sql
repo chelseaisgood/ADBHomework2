@@ -9,4 +9,4 @@ create table stock (
     );
 	
 	
-LOAD DATA INFILE 'F:/wamp64/tmp/trade.json' INTO TABLE stock.stock
+\copy stock from '/var/lib/postgresql/9.3/main/trade.txt' (DELIMITER(','));
