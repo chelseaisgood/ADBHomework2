@@ -1,8 +1,42 @@
-postgres=# \timing
-Timing is on.
-postgres=# select stocksymbol, (sum(quantity * price))/sum(quantity) as weighted_average
-postgres-# from stock
-postgres-# group by stocksymbol;
-Time: 2359.028 ms
-postgres=# 
+mysql> drop table if exists temp;
+Query OK, 0 rows affected (0.16 sec)
+
+mysql> drop table if exists temp1;
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> drop table if exists temp2;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> drop table if exists final_result;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> 
+mysql> create table temp as (select * from stock where stocktime <= 200000 order by stocksymbol asc, stocktime asc);
+Query OK, 200000 rows affected (3.42 sec)
+Records: 200000  Duplicates: 0  Warnings: 0
+
+mysql> set @row = 0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> create table temp1 as (select (@row:=@row + 1) as num, stocksymbol, quantity, price from temp);
+Query OK, 200000 rows affected (4.37 sec)
+Records: 200000  Duplicates: 0  Warnings: 0
+
+mysql> create table temp2 as (select * from temp1);
+Query OK, 200000 rows affected (3.72 sec)
+Records: 200000  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> 
+mysql> create table final_result as
+    -> (
+    -> select stocksymbol, ((sum(sub.price * sub.quantity))/(sum(sub.quantity))) as running_average_weighted
+    -> from
+    -> (
+    -> select temp1.stocksymbol, temp1.num, temp2.quantity, temp2.price from temp1 inner join temp2 on (temp1.stocksymbol = temp2.stocksymbol) and (temp1.num - 9 <= temp2.num) and (temp1.num >= temp2.num)
+    -> ) as sub
+    -> group by stocksymbol, num);
+
+Query OK, 200000 rows affected, 65535 warnings (1 hour 36 min 6.90 sec)
+Records: 200000  Duplicates: 0  Warnings: 136840
 

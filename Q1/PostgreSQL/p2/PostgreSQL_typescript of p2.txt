@@ -1,0 +1,37 @@
+postgres=# drop table if exists temp;
+DROP TABLE
+Time: 36.513 ms
+postgres=# drop table if exists temp1;
+DROP TABLE
+Time: 21.117 ms
+postgres=# drop table if exists temp2;
+DROP TABLE
+Time: 20.165 ms
+postgres=# 
+postgres=# create table temp as (select * from stock order by stocksymbol asc, stocktime asc);
+SELECT 1000000
+Time: 3781.804 ms
+postgres=# create table temp1 as (select row_number() over() as num,* from temp); 
+SELECT 1000000
+Time: 2584.458 ms
+postgres=# create table temp2 as (select * from temp1);
+SELECT 1000000
+Time: 2086.786 ms
+postgres=# 
+postgres=# drop table if exists result;
+NOTICE:  table "result" does not exist, skipping
+DROP TABLE
+Time: 0.793 ms
+postgres=# create temporary table result as(
+postgres(# select stocksymbol, (sum(sub.price)/count(sub.price)) as running_average_unweighted
+postgres(# from
+postgres(# (
+postgres(# select temp1.stocksymbol, temp1.num, temp2.price from temp1 inner join temp2 on (temp1.stocksymbol = temp2.stocksymbol) and (temp1.num - 9 <= temp2.num) and (temp1.num >= temp2.num)
+postgres(# ) as sub
+postgres(# group by stocksymbol, num);
+SELECT 1000000
+Time: 25572.019 ms
+postgres=# \COPY result TO '/var/lib/postgresql/9.3/main/result5.csv' DELIMITER ',' CSV HEADER;
+Time: 792.810 ms
+postgres=# 
+
