@@ -1,0 +1,7 @@
+select stocksymbol, (sum(quantity * price))/sum(quantity)
+from stock
+group by stocksymbol
+limit 1000000;
+
+70000 rows in set (1.86 sec)
+
