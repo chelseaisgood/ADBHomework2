@@ -1,4 +1,4 @@
-drop table liketable;
+drop table if exists liketable;
 
 create table liketable (
 	person INT,
