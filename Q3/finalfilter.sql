@@ -9,4 +9,4 @@ from friend_temp as A
 	inner join liketable as B on A.person1 = B.person 
 	left outer join liketable as C on A.person2 = C.person and B.artist = C.artist
 where C.person is null
-into outfile 'record.txt';;
+into outfile '/var/lib/mysql-files/record.txt';
