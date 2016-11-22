@@ -1,0 +1,31 @@
+//PostgreSQL Part
+postgres=# ALTER TABLE stock DROP CONSTRAINT stock_pkey;
+ALTER TABLE
+Time: 49.289 ms
+
+postgres=# select * from stock where quantity > 8000;
+Time: 438.350 ms
+
+postgres=# ALTER TABLE stock ADD CONSTRAINT MyPrimaryKey PRIMARY KEY (stocktime);
+ALTER TABLE
+Time: 2540.293 ms
+
+postgres=# select * from stock where quantity > 8000;
+Time: 417.840 ms
+
+
+postgres=# ALTER TABLE stockNew DROP CONSTRAINT stockNew_pkey;
+ALTER TABLE
+Time: 30.888 ms
+
+postgres=# select * from stockNew where quantity > 8000;
+Time: 494.375 ms
+
+postgres=# ALTER TABLE stockNew ADD CONSTRAINT YourPrimaryKey PRIMARY KEY (stocktime);
+ALTER TABLE
+Time: 13466.720 ms
+
+postgres=# select * from stockNew where quantity > 8000;
+Time: 547.269 ms
+
+

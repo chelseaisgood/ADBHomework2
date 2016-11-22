@@ -1,0 +1,15 @@
+/usr/bin/mysql -u root -p
+
+sudo service mysql start
+
+sudo service mysql stop
+
+create database question2;
+
+use question2;
+
+SELECT @@global.secure_file_priv;
+
+LOAD DATA INFILE '/var/lib/mysql-files/data.txt' INTO TABLE question2.stock
+      FIELDS
+          TERMINATED BY ',';

@@ -1,0 +1,32 @@
+//MySQL Part
+select * from stock where price = 203 limit 1000000;
+200431 rows in set (0.58 sec)
+
+
+select * from stock where quantity = 500 limit 1000000;
+94 rows in set (0.45 sec)
+
+
+create index price_index using btree on stock (price);
+Query OK, 0 rows affected (6.58 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+select * from stock where price = 203 limit 1000000;
+200431 rows in set (0.97 sec)
+
+
+drop index price_index on stock;
+Query OK, 0 rows affected (0.21 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+create index quantity_index using btree on stock (quantity);
+Query OK, 0 rows affected (7.82 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+select * from stock where quantity = 500 limit 1000000;
+94 rows in set (0.00 sec)
+
+
