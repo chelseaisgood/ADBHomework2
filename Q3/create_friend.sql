@@ -1,4 +1,4 @@
-drop table friend;
+drop table if exists friend;
 
 create table friend (
 	person1 int,

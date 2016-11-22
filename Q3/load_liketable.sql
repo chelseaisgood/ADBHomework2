@@ -1,4 +1,4 @@
-LOAD DATA INFILE 'F:/wamp64/tmp/like.txt' INTO TABLE question3.liketable
+LOAD DATA INFILE '/var/lib/mysql-files/like.txt' INTO TABLE question3.liketable
       FIELDS
           TERMINATED BY ','
        
