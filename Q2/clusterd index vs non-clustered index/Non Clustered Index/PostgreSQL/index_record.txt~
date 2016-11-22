@@ -1,0 +1,26 @@
+//PostgreSQL Part
+postgres=# select * from stock where price = 203 limit 1000000;
+Time: 382.377 ms
+
+postgres=# select * from stock where quantity = 500 limit 1000000;
+Time: 236.736 ms
+
+postgres=# create index price_index on stock (price);
+CREATE INDEX
+Time: 3256.831 ms
+
+postgres=# select * from stock where price = 203 limit 1000000;
+Time: 235.659 ms
+
+postgres=# drop index price_index;
+DROP INDEX
+Time: 32.324 ms
+
+postgres=# create index quantity_index on stock (quantity);
+CREATE INDEX
+Time: 2897.533 ms
+
+postgres=# select * from stock where quantity = 500 limit 1000000;
+Time: 1.691 ms
+
+

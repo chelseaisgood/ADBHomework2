@@ -1,0 +1,35 @@
+//MySQL Part
+mysql> alter table stock drop primary key;
+Query OK, 1000000 rows affected (20.40 sec)
+Records: 1000000  Duplicates: 0  Warnings: 0
+
+
+select * from stock where quantity > 8000;
+201858 rows in set (0.72 sec)
+
+
+mysql> alter table stock add primary key(stocktime);
+Query OK, 0 rows affected (15.89 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+select * from stock where quantity > 8000;
+201858 rows in set (0.45 sec)
+
+
+mysql> alter table stockNew drop primary key;
+Query OK, 1000000 rows affected (21.08 sec)
+Records: 1000000  Duplicates: 0  Warnings: 0
+
+
+select * from stockNew where quantity > 8000;
+201858 rows in set (0.82 sec)
+
+
+mysql> alter table stockNew add primary key(stocktime);
+Query OK, 0 rows affected (18.15 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+
+
