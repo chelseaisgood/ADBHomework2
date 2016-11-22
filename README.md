@@ -7,4 +7,3 @@
     
 # Next to do:
     1) Finish the MySQL part of question1 and compare the result between MySQL and PostgreSQL in the report;.
-    2) After finish step 1 & 2, say something about question3 in the report;
